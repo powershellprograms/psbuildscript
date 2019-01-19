@@ -6,7 +6,7 @@ function Confirm-AdministratorContext
     $identity = [Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()
     $identity.IsInRole($administrator)
 }
-
+Confirm-AdministratorContext
 function Invoke-TrustedExpression
 {
   [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingInvokeExpression", "", Scope="Function", Target="Invoke-TrustedExpression")]
