@@ -18,6 +18,13 @@ Write-Output "**NuGet package provider"
         Invoke-TrustedExpression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
     }
 
+    function Invoke-TrustedExpression
+    {
+        [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingInvokeExpression", "", Scope="Function", Target="Invoke-TrustedExpression")]
+        param([string]$trustedExpression)
+        Invoke-Expression $trustedExpression
+    }
+
 class InstallBuildDependencies {
   [array]ModuleInstaller($moduleNames,$command) {
     $modulesToBeInstalled = @()
