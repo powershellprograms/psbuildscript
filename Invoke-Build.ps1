@@ -19,11 +19,12 @@ Write-Output "**NuGet package provider"
     {
         Install-PackageProvider -Name "NuGet" -Force
     }
- Write-Output "**Chocolatey package manager"
-    if (-not (Get-Command choco -ErrorAction SilentlyContinue))
-    {
-        Invoke-TrustedExpression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-    }
+
+# Write-Output "**Chocolatey package manager"
+# if (-not (Get-Command choco -ErrorAction SilentlyContinue))
+# {
+#   Invoke-TrustedExpression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+# }
 
 class InstallBuildDependencies {
   [array]ModuleInstaller($moduleNames,$command) {
@@ -71,7 +72,7 @@ class ChocolateyPackageInstaller:InstallBuildDependencies {
 
 $PSModules = [PSModuleInstaller]::new()
 $PSModules.InstallPowerShellModules($PSModules.ModuleInstaller(("PSScriptAnalyzer","Pester","SharePointOnline.CSOM","SSS"),"-Module"))
-$chocolateyPackages = [ChocolateyPackageInstaller]::new()
-$chocolateyPackages.InstallChocolateyPackages($chocolateyPackages.ModuleInstaller(("NodeJS","python","pandoc")," "))
+# $chocolateyPackages = [ChocolateyPackageInstaller]::new()
+# $chocolateyPackages.InstallChocolateyPackages($chocolateyPackages.ModuleInstaller(("NodeJS","python","pandoc")," "))
 $nodePackages = [NodePackageInstaller]::new()
 $nodePackages.InstallNodePackages($nodePackages.ModuleInstaller(("markdownlint-cli","markdown-spellcheck","jslint","jasmine")," "))
