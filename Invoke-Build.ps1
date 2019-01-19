@@ -1,3 +1,23 @@
+param([switch]$Jenkins=$false)
+$ErrorActionPreference="Stop"
+function Confirm-AdministratorContext
+{
+    $administrator = [Security.Principal.WindowsBuiltInRole] "Administrator"
+    $identity = [Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()
+    $identity.IsInRole($administrator)
+}
+
+Write-Output "**NuGet package provider"
+    if (-not (Get-PackageProvider | Where-Object {$_.Name -eq "NuGet"}))
+    {
+        Install-PackageProvider -Name "NuGet" -Force
+    }
+ Write-Output "**Chocolatey package manager"
+    if (-not (Get-Command choco -ErrorAction SilentlyContinue))
+    {
+        Invoke-TrustedExpression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+    }
+
 class InstallBuildDependencies {
   [array]ModuleInstaller($moduleNames,$command) {
     $modulesToBeInstalled = @()
