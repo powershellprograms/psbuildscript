@@ -7,6 +7,13 @@ function Confirm-AdministratorContext
     $identity.IsInRole($administrator)
 }
 
+function Invoke-TrustedExpression
+{
+  [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingInvokeExpression", "", Scope="Function", Target="Invoke-TrustedExpression")]
+  param([string]$trustedExpression)
+  Invoke-Expression $trustedExpression
+}
+
 Write-Output "**NuGet package provider"
     if (-not (Get-PackageProvider | Where-Object {$_.Name -eq "NuGet"}))
     {
@@ -16,13 +23,6 @@ Write-Output "**NuGet package provider"
     if (-not (Get-Command choco -ErrorAction SilentlyContinue))
     {
         Invoke-TrustedExpression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-    }
-
-    function Invoke-TrustedExpression
-    {
-        [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingInvokeExpression", "", Scope="Function", Target="Invoke-TrustedExpression")]
-        param([string]$trustedExpression)
-        Invoke-Expression $trustedExpression
     }
 
 class InstallBuildDependencies {
