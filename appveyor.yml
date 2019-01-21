@@ -4,5 +4,5 @@ image: Visual Studio 2015
 #     - master
 #     - test
 build: false
-before_build:
-  - ps: .\Invoke-Build.ps1
+build_script:
+  - ps: .\Invoke-Build.ps1 -AppVeyor
