@@ -45,7 +45,10 @@ class ChocolateyPackageInstaller:InstallBuildDependencies {
       Foreach ($packageName in $packageNames)
       {
         Write-Host "**$packageName"
+	npm --version
         npm install $packageName
+	npm init -y
+	python -v
       }
     }
 }
@@ -65,13 +68,6 @@ function Install-BuildPrerequisite
     {
         Invoke-TrustedExpression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
     }
-
-    # Write-Output "**Python Coverage"
-	  # if (-not(Get-Command coverage -ErrorAction SilentlyContinue))
-    # {
-    #     pip install pytest-cov
-    # }
-
 }
 
 function Invoke-TrustedExpression
