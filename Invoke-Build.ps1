@@ -60,11 +60,11 @@ function Install-BuildPrerequisite
         Install-PackageProvider -Name "NuGet" -Force
     }
 
-    # Write-Output "**Chocolatey package manager"
-    # if (-not (Get-Command choco -ErrorAction SilentlyContinue))
-    # {
-    #     Invoke-TrustedExpression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-    # }
+    Write-Output "**Chocolatey package manager"
+    if (-not (Get-Command choco -ErrorAction SilentlyContinue))
+    {
+        Invoke-TrustedExpression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+    }
 
     # Write-Output "**Python Coverage"
 	  # if (-not(Get-Command coverage -ErrorAction SilentlyContinue))
@@ -87,7 +87,7 @@ Write-Output "Building"
 #Invoke-Build
 Write-Output "Build complete"
 $PSModules = [PSModuleInstaller]::new()
-$PSModules.InstallPowerShellModules($PSModules.ModuleInstaller(("PSScriptAnalyzer","Pester","SharePointOnline.CSOM","SSS"),"-Module"))
+$PSModules.InstallPowerShellModules($PSModules.ModuleInstaller(("PSScriptAnalyzer","Pester","SharePointOnline.CSOM"),"-Module"))
 # $chocolateyPackages = [ChocolateyPackageInstaller]::new()
 # $chocolateyPackages.InstallChocolateyPackages($chocolateyPackages.ModuleInstaller(("NodeJS","python","pandoc")," "))
 $nodePackages = [NodePackageInstaller]::new()
