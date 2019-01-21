@@ -45,7 +45,9 @@ class ChocolateyPackageInstaller:InstallBuildDependencies {
       Foreach ($packageName in $packageNames)
       {
         Write-Host "**$packageName"
+	npm --version
         npm install $packageName
+	npm init -y
       }
     }
 }
