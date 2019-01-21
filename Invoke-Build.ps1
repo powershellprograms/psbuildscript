@@ -45,10 +45,7 @@ class ChocolateyPackageInstaller:InstallBuildDependencies {
       Foreach ($packageName in $packageNames)
       {
         Write-Host "**$packageName"
-	npm --version
         npm install $packageName
-	npm init -y
-	python -v
       }
     }
 }
@@ -87,4 +84,5 @@ $PSModules.InstallPowerShellModules($PSModules.ModuleInstaller(("PSScriptAnalyze
 $chocolateyPackages = [ChocolateyPackageInstaller]::new()
 $chocolateyPackages.InstallChocolateyPackages($chocolateyPackages.ModuleInstaller(("NodeJS","python","pandoc")," "))
 $nodePackages = [NodePackageInstaller]::new()
+npm init
 $nodePackages.InstallNodePackages($nodePackages.ModuleInstaller(("markdownlint-cli","markdown-spellcheck","jslint","jasmine")," "))
