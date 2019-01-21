@@ -1,32 +1,12 @@
-param([switch]$Jenkins=$false)
-$ErrorActionPreference="Stop"
 function Confirm-AdministratorContext
 {
     $administrator = [Security.Principal.WindowsBuiltInRole] "Administrator"
     $identity = [Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()
     $identity.IsInRole($administrator)
 }
-Confirm-AdministratorContext
-function Invoke-TrustedExpression
-{
-  [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingInvokeExpression", "", Scope="Function", Target="Invoke-TrustedExpression")]
-  param([string]$trustedExpression)
-  Invoke-Expression $trustedExpression
-}
-
-Write-Output "**NuGet package provider"
-    if (-not (Get-PackageProvider | Where-Object {$_.Name -eq "NuGet"}))
-    {
-        Install-PackageProvider -Name "NuGet" -Force
-    }
-
-# Write-Output "**Chocolatey package manager"
-# if (-not (Get-Command choco -ErrorAction SilentlyContinue))
-# {
-#   Invoke-TrustedExpression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-# }
 
 class InstallBuildDependencies {
+
   [array]ModuleInstaller($moduleNames,$command) {
     $modulesToBeInstalled = @()
     For ($i = 0; $i -lt $moduleNames.count; $i++)
@@ -70,6 +50,42 @@ class ChocolateyPackageInstaller:InstallBuildDependencies {
     }
 }
 
+function Install-BuildPrerequisite
+{
+    Write-Output "Installing build prerequisites -- note: requires admin privileges if any are missing"
+
+    Write-Output "**NuGet package provider"
+    if (-not (Get-PackageProvider | Where-Object {$_.Name -eq "NuGet"}))
+    {
+        Install-PackageProvider -Name "NuGet" -Force
+    }
+
+    # Write-Output "**Chocolatey package manager"
+    # if (-not (Get-Command choco -ErrorAction SilentlyContinue))
+    # {
+    #     Invoke-TrustedExpression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+    # }
+
+    # Write-Output "**Python Coverage"
+	  # if (-not(Get-Command coverage -ErrorAction SilentlyContinue))
+    # {
+    #     pip install pytest-cov
+    # }
+
+}
+
+function Invoke-TrustedExpression
+{
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingInvokeExpression", "", Scope="Function", Target="Invoke-TrustedExpression")]
+    param([string]$trustedExpression)
+    Invoke-Expression $trustedExpression
+}
+
+Write-Output "Build starting"
+Install-BuildPrerequisite
+Write-Output "Building"
+#Invoke-Build
+Write-Output "Build complete"
 $PSModules = [PSModuleInstaller]::new()
 $PSModules.InstallPowerShellModules($PSModules.ModuleInstaller(("PSScriptAnalyzer","Pester","SharePointOnline.CSOM","SSS"),"-Module"))
 # $chocolateyPackages = [ChocolateyPackageInstaller]::new()
