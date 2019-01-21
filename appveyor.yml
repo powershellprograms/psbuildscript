@@ -1,0 +1,8 @@
+image: Visual Studio 2015
+# branches:
+#   only:
+#     - master
+#     - test
+build: false
+before_build:
+  - ps: .\Invoke-Build.ps1
