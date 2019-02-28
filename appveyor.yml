@@ -15,5 +15,5 @@ install:
 #     - test
 build: false
 build_script:
-  - ps: .\Invoke-Build.ps1 -AppVeyor
+#  - ps: .\Invoke-Build.ps1 -AppVeyor
   - ps: .\Invoke-Appveyor.ps1
