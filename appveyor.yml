@@ -1,4 +1,14 @@
-image: Visual Studio 2015
+image: Visual Studio 2017
+environment:
+  DOCKER_TARGET: xylene1980/swcoe
+  DOCKER_USER:
+    secure: YRWoXCxDX8Pf47nnz69fBA==
+  DOCKER_PASSWORD:
+    secure: SnxqBv0zlSEt/F8w3HFKUg==
+install:
+  - docker version
+  - echo DOCKER_TARGET is %DOCKER_TARGET%
+  - systeminfo    
 # branches:
 #   only:
 #     - master
