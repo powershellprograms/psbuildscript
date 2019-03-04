@@ -28,8 +28,8 @@ build_script:
 test_script:
   - ps: .\Invoke-Test.ps1 -AppVeyor -DockerTarget $env:DOCKER_TARGET
 deploy_script:
-  - docker login -u="$env:DOCKER_USER" -p "$env:DOCKER_PASSWORD"
-  - ps: .\Invoke-DockerPush.ps1 -DockerTarget $env:DOCKER_TARGET
+  - docker login -u="$env:DOCKER_USER" -p="$env:DOCKER_PASSWORD"
+  - ps: .\Invoke-DockerPush.ps1 -DockerImage $env:DOCKER_TARGET
 on_finish:
   - cmd: cd
   - cmd: dir
