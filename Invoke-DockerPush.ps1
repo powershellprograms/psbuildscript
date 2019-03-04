@@ -1,5 +1,5 @@
 $ErrorActionPreference="Stop"
 Param([Parameter(Mandatory=$true)][String]$DockerImage)
-$dockerPassword = "$ENV:password"
+#$dockerPassword = "$ENV:password"
 docker push $DockerImage
 Write-Output  "Image Pushed Successfully"
