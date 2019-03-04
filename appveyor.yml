@@ -21,8 +21,8 @@ init:
   - systeminfo
   - docker version
   - echo DOCKER_TARGET is %DOCKER_TARGET%
-#install:
-#  - ps: .\Install-BuildDependencies.ps1
+install:
+  - ps: .\Install-Dependencies.ps1
 #build_script:
 #  - ps: .\Invoke-Build.ps1 -DockerTarget $env:DOCKER_TARGET
 test_script:
