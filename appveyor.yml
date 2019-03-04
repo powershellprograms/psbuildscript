@@ -18,8 +18,8 @@ environment:
 #  - ps: .\Invoke-Build.ps1 -AppVeyor
 #  - ps: .\Invoke-Appveyor.ps1
 init:
-  - systeminfo
-  - docker version
+#  - systeminfo
+#  - docker version
   - echo DOCKER_TARGET is %DOCKER_TARGET%
 install:
   - ps: .\Install-Dependencies.ps1
