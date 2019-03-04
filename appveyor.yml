@@ -5,15 +5,40 @@ environment:
     secure: YRWoXCxDX8Pf47nnz69fBA==
   DOCKER_PASSWORD:
     secure: SnxqBv0zlSEt/F8w3HFKUg==
-install:
-  - docker version
-  - echo DOCKER_TARGET is %DOCKER_TARGET%
-  - systeminfo    
+#install:
+#  - docker version
+#  - echo DOCKER_TARGET is %DOCKER_TARGET%
+#  - systeminfo    
 # branches:
 #   only:
 #     - master
 #     - test
-build: false
-build_script:
+#build: false
+#build_script:
 #  - ps: .\Invoke-Build.ps1 -AppVeyor
-  - ps: .\Invoke-Appveyor.ps1
+#  - ps: .\Invoke-Appveyor.ps1
+init:
+  - systeminfo
+  - docker version
+  - echo DOCKER_TARGET is %DOCKER_TARGET%
+#install:
+#  - ps: .\Install-BuildDependencies.ps1
+build_script:
+  - ps: .\Invoke-Build.ps1 -DockerTarget $env:DOCKER_TARGET
+test_script:
+  - ps: .\Invoke-Test.ps1 -AppVeyor -DockerTarget $env:DOCKER_TARGET
+deploy_script:
+  - docker login -u="%DOCKER_USER%" -p="%DOCKER_PASS%"
+  - ps: .\Invoke-Deploy.ps1 -DockerTarget $env:DOCKER_TARGET
+on_finish:
+  - cmd: cd
+  - cmd: dir
+  - cmd: dir %APPVEYOR_BUILD_FOLDER%
+  - cmd: echo %APPVEYOR_BUILD_FOLDER%
+  - ps: Write-Output "Listing *TestResults.xml in ${env:APPVEYOR_BUILD_FOLDER}"
+  - sh: find "$APPVEYOR_BUILD_FOLDER" -type f -name "*TestResults.xml" -print0
+  - ps: Write-Output "Listing directory contents"
+  - sh: find "$APPVEYOR_BUILD_FOLDER" -type f -name "*TestResults.xml" -print0
+  - ps: Write-Output "Uploading test results"
+  - sh: find "$APPVEYOR_BUILD_FOLDER" -type f -name "*TestResults.xml" -print0 | xargs -0 -I "{}" curl -F "file=@{}" "https://ci.appveyor.com/api/testresults/nunit/$APPVEYOR_JOB_ID"
+
