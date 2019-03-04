@@ -2,9 +2,9 @@ image: Visual Studio 2017
 environment:
   DOCKER_TARGET: xylene1980/swcoe
   DOCKER_USER:
-    secure: YRWoXCxDX8Pf47nnz69fBA==
+    secure: eOG+cvjlxAkVKbg2VBvXng==
   DOCKER_PASSWORD:
-    secure: SnxqBv0zlSEt/F8w3HFKUg==
+    secure: eL3yhUSQHUpfdBhgX+9ydA==
 #install:
 #  - docker version
 #  - echo DOCKER_TARGET is %DOCKER_TARGET%
@@ -28,7 +28,7 @@ build_script:
 test_script:
   - ps: .\Invoke-Test.ps1 -AppVeyor -DockerTarget $env:DOCKER_TARGET
 deploy_script:
-  - docker login -u="%DOCKER_USER%" -p="%DOCKER_PASS%"
+  - docker login -u "%DOCKER_USER%" -p "%DOCKER_PASS%"
   - ps: .\Invoke-Deploy.ps1 -DockerTarget $env:DOCKER_TARGET
 on_finish:
   - cmd: cd
