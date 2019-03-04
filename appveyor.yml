@@ -24,7 +24,7 @@ init:
 install:
   - ps: .\Install-Dependencies.ps1
 build_script:
-  - ps: .\Invoke-Build.ps1 -DockerTarget $env:DOCKER_TARGET
+  - ps: .\Invoke-Build_1.ps1 -DockerTarget $env:DOCKER_TARGET
 test_script:
   - ps: .\Invoke-Test.ps1 -AppVeyor -DockerTarget $env:DOCKER_TARGET
 deploy_script:
