@@ -1,6 +1,6 @@
 Param([Parameter(Mandatory=$true)][String]$DockerTarget)
 Write-Output "Run static analysis test"
-$result = Invoke-Pester ./StaticAnalysis* -PassThru -OutputFile StaticAnalysisTestResults.xml -OutputFormat NUnitXml
+$result = Invoke-Pester . -PassThru -OutputFile StaticAnalysisTestResults.xml -OutputFormat NUnitXml
 If ($result.FailedCount -ne 0) {
     Write-Output "Static analysis test failed - aborting build"
     Exit $result.FailedCount
